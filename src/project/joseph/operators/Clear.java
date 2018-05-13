@@ -1,5 +1,6 @@
 package project.joseph.operators;
 
+import project.joseph.exceptions.CalculatorError;
 import project.joseph.exceptions.CalculatorException;
 
 import java.util.Stack;
@@ -15,5 +16,6 @@ public class Clear extends Operator {
     @Override
     public void execute(Stack<Double> stack) throws CalculatorException {
         stack.clear();
+        throw new CalculatorException(CalculatorError.CLEAR_HISTORY);
     }
 }

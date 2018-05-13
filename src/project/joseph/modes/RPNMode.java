@@ -1,5 +1,6 @@
 package project.joseph.modes;
 
+import project.joseph.exceptions.CalculatorError;
 import project.joseph.exceptions.CalculatorException;
 import project.joseph.operators.*;
 
@@ -28,7 +29,7 @@ public class RPNMode implements CalculatingMode {
         operators.add(new Undo());
     }
 
-    private static List<String> history = new ArrayList<>();
+    private static ArrayList<String> history = new ArrayList<>();
     private final String DELIMITER = ":";
 
     @Override
@@ -39,16 +40,36 @@ public class RPNMode implements CalculatingMode {
     @Override
     public void calculate(String input) {
         String[] items = input.split(" ");
-        List<String> validItems = Arrays.stream(items).filter(x -> !x.isEmpty()).collect(Collectors.toList());
+        ArrayList<String> validItems = (ArrayList<String>)Arrays.stream(items).
+                filter(x -> !x.isEmpty()).map(String::toLowerCase).collect(Collectors.toList());
         if (validItems.size() > 0) {
-
-            int idx = 0;
-            ListIterator<String> iterator = validItems.listIterator();
-            while (iterator.hasNext()) {
-                String item = iterator.next();
-                Operator operator = getByName(item);
+            int idx = -1; // index of operator in input string
+            int undoIdx = validItems.indexOf(OperatorEnum.UNDO.getName());
+            while (undoIdx > -1) {
+                idx = input.toLowerCase().indexOf(OperatorEnum.UNDO.getName(), ++idx);
+                if (undoIdx == 0) {
+                    if (history.isEmpty()) {
+                        System.out.print("operator " + OperatorEnum.UNDO.getName() + " (position: " + idx + "): " +
+                                CalculatorError.ILLEGAL_UNDO.getErrorMsg());
+                    } else {
+                        undoIdx = history.size();
+                        history.addAll(validItems);
+                        validItems = history;
+                        history = new ArrayList<>();
+                    }
+                } else {
+                    validItems.remove(--undoIdx); // remove previous operation
+                    validItems.remove(undoIdx); // remove UNDO operation
+                    undoIdx = validItems.indexOf(OperatorEnum.UNDO.getName());
+                }
             }
-
+            idx = -1;
+            List<String> operations = new ArrayList<>();
+            for (String item : validItems) {
+                idx = input.indexOf(item, ++idx);
+                operations.add(item + DELIMITER + idx);
+            }
+            execute(operations);
         } else {
             displayStack();
         }
@@ -56,30 +77,41 @@ public class RPNMode implements CalculatingMode {
     }
 
     private void execute(List<String> items) {
-        history = items;
-        int idx = 0;
         for (String item : items) {
+            String[] token = item.split(DELIMITER);
+            String operation = token[0];
+            int idx = Integer.parseInt(token[1]);
             try {
-                Double number = Double.valueOf(item);
+                Double number = Double.valueOf(operation);
+                history.add(operation); // added to history only when it's legal
                 stack.push(number);
             } catch (NumberFormatException e) {
-                Operator operator = getByName(item);
+                Operator operator = getByName(operation);
                 try {
-                    operator.execute(stack);
+                    if (operator == null) {
+                        throw new CalculatorException(CalculatorError.ILLEGAL_OPERATOR);
+                    } else {
+                        history.add(operation);
+                        operator.execute(stack);
+                    }
                 } catch (CalculatorException ce) {
-                    //TODO print error message
-                    displayStack();
-                } catch (NullPointerException ne) {
-                    System.out.println("illegal operator");
-                    displayStack();
+                    //print error message
+                    if (CalculatorError.CLEAR_HISTORY.getCode().equals(ce.getErrorCode())) {
+                        history.clear();
+                    } else {
+                        System.out.print("operator " + operation + " (position: " + idx + "): " + ce.getMessage());
+                        break;
+                    }
+
                 }
             }
         }
+        displayStack();
     }
 
     private void displayStack() {
         System.out.print("stack: ");
-        stack.stream().forEach(x -> {
+        stack.forEach(x -> {
             //displayed to 10 decimal places (or less if it causes no loss of precision)
             DecimalFormat decimalFormat = new DecimalFormat("#.##########");
             decimalFormat.setRoundingMode(RoundingMode.CEILING);

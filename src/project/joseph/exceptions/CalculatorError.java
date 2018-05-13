@@ -6,6 +6,7 @@ import project.joseph.Calculator;
  * Created by josephgan on 5/13/18.
  */
 public enum CalculatorError {
+    CLEAR_HISTORY(200, "history cleared"),
     COMMON_ERROR(300, "common error"),
     INSUFFICIENT_PARAMETERS(501, "insufficient parameters"),
     ILLEGAL_OPERATOR(404, "illegal operator"),

@@ -22,6 +22,10 @@ public enum OperatorEnum {
         this.name = name;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public static OperatorEnum getByName(String name) {
         for (OperatorEnum operatorEnum : values()) {
             if (operatorEnum.name.equalsIgnoreCase(name.trim())) {
