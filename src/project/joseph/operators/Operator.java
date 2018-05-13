@@ -12,5 +12,5 @@ public abstract class Operator {
     public OperatorEnum getOperator() {
         return this.operator;
     }
-    public abstract void execute(Stack stack) throws CalculatorException;
+    public abstract void execute(Stack<Double> stack) throws CalculatorException;
 }

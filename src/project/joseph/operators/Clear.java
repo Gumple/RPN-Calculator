@@ -13,7 +13,7 @@ public class Clear extends Operator {
     }
 
     @Override
-    public void execute(Stack stack) throws CalculatorException {
-        return;
+    public void execute(Stack<Double> stack) throws CalculatorException {
+        stack.clear();
     }
 }

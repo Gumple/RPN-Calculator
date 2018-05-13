@@ -1,5 +1,6 @@
 package project.joseph.operators;
 
+import project.joseph.exceptions.CalculatorError;
 import project.joseph.exceptions.CalculatorException;
 
 import java.util.Stack;
@@ -13,8 +14,13 @@ public class Subtraction extends Operator {
     }
 
     @Override
-    public void execute(Stack stack) throws CalculatorException {
-        return;
+    public void execute(Stack<Double> stack) throws CalculatorException {
+        if (stack.size() < 2) {
+            throw new CalculatorException(CalculatorError.INSUFFICIENT_PARAMETERS);
+        }
+        Double operand1 = stack.pop();
+        Double operand2 = stack.pop();
+        stack.push(subtract(operand1, operand2));
     }
 
     public static Double subtract(Double operand1, Double operand2) {

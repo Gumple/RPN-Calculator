@@ -1,5 +1,6 @@
 package project.joseph.operators;
 
+import project.joseph.exceptions.CalculatorError;
 import project.joseph.exceptions.CalculatorException;
 
 import java.util.Stack;
@@ -13,8 +14,12 @@ public class SquareRoot extends Operator {
     }
 
     @Override
-    public void execute(Stack stack) throws CalculatorException {
-        return;
+    public void execute(Stack<Double> stack) throws CalculatorException {
+        if (stack.size() < 1) {
+            throw new CalculatorException(CalculatorError.INSUFFICIENT_PARAMETERS);
+        }
+        Double operand = stack.pop();
+        stack.push(squareRoot(operand));
     }
 
     public static Double squareRoot(Double operand1) {

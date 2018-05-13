@@ -13,7 +13,7 @@ public class Undo extends Operator {
     }
 
     @Override
-    public void execute(Stack stack) throws CalculatorException {
+    public void execute(Stack<Double> stack) throws CalculatorException {
         return;
     }
 }

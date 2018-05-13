@@ -10,5 +10,5 @@ import java.util.Stack;
  */
 public interface CalculatingMode {
     String description();
-    void calculate();
+    void calculate(String input);
 }
