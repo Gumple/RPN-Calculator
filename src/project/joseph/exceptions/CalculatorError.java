@@ -4,6 +4,8 @@ import project.joseph.Calculator;
 
 /**
  * Created by josephgan on 5/13/18.
+ *
+ * Custom Error Type
  */
 public enum CalculatorError {
     CLEAR_HISTORY(200, "history cleared"),
@@ -11,7 +13,8 @@ public enum CalculatorError {
     INSUFFICIENT_PARAMETERS(501, "insufficient parameters"),
     ILLEGAL_OPERATOR(404, "illegal operator"),
     ILLEGAL_UNDO(405, "cannot undo"),
-    DIVIDE_BY_ZERO(410, "cannot divide by 0");
+    DIVIDE_BY_ZERO(410, "cannot divide by 0"),
+    SQUARE_ROOT_OF_NEGATIVE_NUMBER(410, "sqrt does not accept negative number");
 
     private Integer code;
     private String errorMsg;

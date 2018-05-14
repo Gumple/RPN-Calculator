@@ -18,7 +18,8 @@ public class RPNMode implements CalculatingMode {
     private static String description;
 
     static {
-        description = "";
+        description = "Welcome to RPN Calculator!\n" +
+                "Enter \"exit\" to turn off the calculator.";
         operators = new HashSet<>();
         operators.add(new Addition());
         operators.add(new Subtraction());
@@ -26,7 +27,6 @@ public class RPNMode implements CalculatingMode {
         operators.add(new Division());
         operators.add(new SquareRoot());
         operators.add(new Clear());
-        operators.add(new Undo());
     }
 
     private static ArrayList<String> history = new ArrayList<>();
@@ -37,6 +37,15 @@ public class RPNMode implements CalculatingMode {
         return description;
     }
 
+    /**
+     * @param input is a String that user enters in command-line
+     *
+     * @implNote The flow of calculate:
+     * -> translates user's input into operations(operators & operands)
+     * -> runs UNDO check(#undo functionality# is implemented by removing previous operations)
+     * -> executes valid operations {@link #execute(List)}
+     * -> displays result {@link #displayStack()}
+     */
     @Override
     public void calculate(String input) {
         String[] items = input.split(" ");
@@ -50,7 +59,7 @@ public class RPNMode implements CalculatingMode {
                 idx = input.toLowerCase().indexOf(OperatorEnum.UNDO.getName(), ++idx);
                 if (undoIdx == 0) {
                     if (history.isEmpty()) {
-                        System.out.print("operator " + OperatorEnum.UNDO.getName() + " (position: " + idx + "): " +
+                        System.out.println("operator " + OperatorEnum.UNDO.getName() + " (position: " + idx + "): " +
                                 CalculatorError.ILLEGAL_UNDO.getErrorMsg());
                         illegalUndo = true;
                         break;
@@ -59,6 +68,7 @@ public class RPNMode implements CalculatingMode {
                         history.addAll(validItems);
                         validItems = history;
                         history = new ArrayList<>();
+                        stack.clear();
                     }
                 } else {
                     validItems.remove(--undoIdx); // remove previous operation
@@ -70,16 +80,21 @@ public class RPNMode implements CalculatingMode {
                 idx = -1;
                 List<String> operations = new ArrayList<>();
                 for (String item : validItems) {
-                    idx = input.indexOf(item, ++idx);
+                    idx = input.toLowerCase().indexOf(item, ++idx);
                     operations.add(item + DELIMITER + idx);
                 }
                 execute(operations);
             }
         }
         displayStack();
-
     }
 
+    /**
+     * @param items is a list of operation items <operation:index> with index info
+     *
+     * if the item is an operand: push to stack
+     * if the item is an {@link Operator}: execute the calculation
+     */
     private void execute(List<String> items) {
         for (String item : items) {
             String[] token = item.split(DELIMITER);
@@ -103,7 +118,7 @@ public class RPNMode implements CalculatingMode {
                     if (CalculatorError.CLEAR_HISTORY.getCode().equals(ce.getErrorCode())) {
                         history.clear();
                     } else {
-                        System.out.print("operator " + operation + " (position: " + idx + "): " + ce.getMessage());
+                        System.out.println("operator " + operation + " (position: " + idx + "): " + ce.getMessage());
                         break;
                     }
 

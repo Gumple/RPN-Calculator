@@ -18,8 +18,8 @@ public class Subtraction extends Operator {
         if (stack.size() < 2) {
             throw new CalculatorException(CalculatorError.INSUFFICIENT_PARAMETERS);
         }
-        Double operand1 = stack.pop();
         Double operand2 = stack.pop();
+        Double operand1 = stack.pop();
         stack.push(subtract(operand1, operand2));
     }
 

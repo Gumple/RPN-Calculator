@@ -4,6 +4,9 @@ import jdk.nashorn.internal.objects.annotations.Getter;
 
 /**
  * Created by josephgan on 5/12/18.
+ *
+ * Define operators here
+ * @see Operator
  */
 public enum OperatorEnum {
     ILLEGAL_OPERATOR("illegal operator"),
@@ -14,7 +17,9 @@ public enum OperatorEnum {
     DIVISION("/"),
     SQUARE_ROOT("sqrt"),
     UNDO("undo"),
-    CLEAR("clear");
+    CLEAR("clear"),
+
+    EXIT("exit");
 
     private String name;
 

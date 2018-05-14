@@ -19,6 +19,10 @@ public class SquareRoot extends Operator {
             throw new CalculatorException(CalculatorError.INSUFFICIENT_PARAMETERS);
         }
         Double operand = stack.pop();
+        if (operand < 0) {
+            stack.push(operand);
+            throw new CalculatorException(CalculatorError.SQUARE_ROOT_OF_NEGATIVE_NUMBER);
+        }
         stack.push(squareRoot(operand));
     }
 
