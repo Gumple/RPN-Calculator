@@ -30,7 +30,7 @@ public class RPNMode implements CalculatingMode {
     }
 
     private static ArrayList<String> history = new ArrayList<>();
-    private final String DELIMITER = ":";
+    private final static String DELIMITER = ":";
 
     @Override
     public String description() {
@@ -45,12 +45,15 @@ public class RPNMode implements CalculatingMode {
         if (validItems.size() > 0) {
             int idx = -1; // index of operator in input string
             int undoIdx = validItems.indexOf(OperatorEnum.UNDO.getName());
+            boolean illegalUndo = false;
             while (undoIdx > -1) {
                 idx = input.toLowerCase().indexOf(OperatorEnum.UNDO.getName(), ++idx);
                 if (undoIdx == 0) {
                     if (history.isEmpty()) {
                         System.out.print("operator " + OperatorEnum.UNDO.getName() + " (position: " + idx + "): " +
                                 CalculatorError.ILLEGAL_UNDO.getErrorMsg());
+                        illegalUndo = true;
+                        break;
                     } else {
                         undoIdx = history.size();
                         history.addAll(validItems);
@@ -63,16 +66,17 @@ public class RPNMode implements CalculatingMode {
                     undoIdx = validItems.indexOf(OperatorEnum.UNDO.getName());
                 }
             }
-            idx = -1;
-            List<String> operations = new ArrayList<>();
-            for (String item : validItems) {
-                idx = input.indexOf(item, ++idx);
-                operations.add(item + DELIMITER + idx);
+            if (!illegalUndo) {
+                idx = -1;
+                List<String> operations = new ArrayList<>();
+                for (String item : validItems) {
+                    idx = input.indexOf(item, ++idx);
+                    operations.add(item + DELIMITER + idx);
+                }
+                execute(operations);
             }
-            execute(operations);
-        } else {
-            displayStack();
         }
+        displayStack();
 
     }
 
@@ -106,7 +110,6 @@ public class RPNMode implements CalculatingMode {
                 }
             }
         }
-        displayStack();
     }
 
     private void displayStack() {
