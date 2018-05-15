@@ -18,8 +18,14 @@ public class RPNMode implements CalculatingMode {
     private static String description;
 
     static {
-        description = "Welcome to RPN Calculator!\n" +
-                "Enter \"exit\" to turn off the calculator.";
+        description =
+                "                                                   \n" +
+                "              You are now in RPN Mode              \n" +
+                "                                                   \n" +
+                "#Available operators: +, -, *, /, sqrt, undo, clear\n" +
+                "                                                   \n" +
+                "|                                                  \n" +
+                "V  Calculate Now!                                   ";
         operators = new HashSet<>();
         operators.add(new Addition());
         operators.add(new Subtraction());

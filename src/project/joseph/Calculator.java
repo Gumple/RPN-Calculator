@@ -11,13 +11,31 @@ import java.util.Scanner;
 public class Calculator {
     private List<CalculatingMode> calculatingModes = new ArrayList<>();
     private CalculatingMode currentMode = null;
-    private final static String SAY_GOODBYE = "Goodbye!";
+    private final static String WELCOME_MSG =
+                    "***************************************************\n" +
+                    "*         Welcome to JOSimple Calculator!         *\n" +
+                    "*                                                 *\n" +
+                    "* @Author Joseph                                  *\n" +
+                    "* @Version 0.0.1                                  *\n" +
+                    "*                                                 *\n" +
+                    "* (Enter \"exit\" to turn off the calculator)       *\n" +
+                    "***************************************************";
+
+    private final static String SAY_GOODBYE =
+                    "***************************************************\n" +
+                    "*                    GOODBYE!                     *\n" +
+                    "***************************************************";
 
     public Calculator(List<CalculatingMode> calculatingModes) {
         this.calculatingModes = calculatingModes;
     }
 
+    private void welcome() {
+       System.out.println(WELCOME_MSG);
+    }
+
     public void start() {
+        welcome();
         switchMode(0);
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNext()) {
