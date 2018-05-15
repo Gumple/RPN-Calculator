@@ -1,9 +1,11 @@
 package project.joseph;
 
 import project.joseph.modes.CalculatingMode;
+import project.joseph.modes.RPNMode;
 import project.joseph.operators.OperatorEnum;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -57,5 +59,9 @@ public class Calculator {
     public void powerOff() {
         System.out.println(SAY_GOODBYE);
         System.exit(0);
+    }
+
+    public static void main(String[] args) {
+        new Calculator(Arrays.asList(new RPNMode())).start();
     }
 }
