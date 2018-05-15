@@ -1,9 +1,9 @@
 RPN-Calculator
 ===============
 A simple command-line based RPN calculator
----------------
 
-####File Hierarchy
+File Hierarchy
+--------------
 ```
 .
 |____src
@@ -29,7 +29,8 @@ A simple command-line based RPN calculator
 |____README.md
 ```
 
-####How to run the program
+How to run the program
+-------------------
 go under `/src` directory
 
 run `mkdir bin` to create a directory to store `.class` files
@@ -37,4 +38,5 @@ run `mkdir bin` to create a directory to store `.class` files
 compile using `javac -d bin project/joseph/Calculator.java`
 
 run the application by `java -cp bin project.joseph.Calculator`
+
 
