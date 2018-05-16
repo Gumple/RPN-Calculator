@@ -10,6 +10,10 @@ import java.util.List;
 import java.util.Scanner;
 
 
+/**
+ * @author josephgan
+ * @version 0.0.1
+ */
 public class Calculator {
     private List<CalculatingMode> calculatingModes = new ArrayList<>();
     private CalculatingMode currentMode = null;
