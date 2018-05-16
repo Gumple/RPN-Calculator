@@ -10,7 +10,6 @@ File Hierarchy
 | |____project
 | | |____joseph
 | | | |____Calculator.java
-| | | |____CalculatorTest.java
 | | | |____modes
 | | | | |____RPNMode.java
 | | | | |____CalculatingMode.java
