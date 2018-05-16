@@ -14,7 +14,7 @@ public enum CalculatorError {
     ILLEGAL_OPERATOR(404, "illegal operator"),
     ILLEGAL_UNDO(405, "cannot undo"),
     DIVIDE_BY_ZERO(410, "cannot divide by 0"),
-    SQUARE_ROOT_OF_NEGATIVE_NUMBER(410, "sqrt does not accept negative number");
+    SQUARE_ROOT_OF_NEGATIVE_NUMBER(411, "sqrt does not accept negative number");
 
     private Integer code;
     private String errorMsg;
